@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+     <script src="api.js" type="module"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать питомца | ЧипТрекер</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-paw"></i>
+            </div>
+            <span class="logo-text">ЧипТрекер</span>
+        </a>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Личный кабинет</a>
+            <a href="add-pet.html"><i class="fas fa-plus-circle"></i> Добавить питомца</a>
+            <button class="btn-logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Декор в виде следов животных -->
+<div class="animal-decorations">
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+</div>
+
+    <!-- Форма редактирования питомца -->
+    <section class="section">
+        <div class="container">
+            <div class="form-header">
+                <h1><i class="fas fa-edit"></i> Редактировать питомца</h1>
+                <p id="pageDescription">Обновите информацию о вашем питомце</p>
+            </div>
+            
+            <div class="form-container">
+                <form id="editAnimalForm" class="pet-form">
+                    <input type="hidden" id="animalId" name="id">
+                    
+                    <!-- Основная информация -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Основная информация</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editChipNumber">
+                                    <i class="fas fa-microchip"></i>
+                                    Номер чипа *
+                                </label>
+                                <input type="text" id="editChipNumber" name="chipNumber" required 
+                                       placeholder="Введите 15-значный номер чипа"
+                                       pattern="[A-Z0-9]{10,20}"
+                                       readonly>
+                                <div class="form-hint">Номер чипа нельзя изменить после регистрации</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editPetName">
+                                    <i class="fas fa-heart"></i>
+                                    Кличка *
+                                </label>
+                                <input type="text" id="editPetName" name="petName" required 
+                                       placeholder="Введите кличку животного">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="editSpecies">
+                                    <i class="fas fa-dna"></i>
+                                    Вид *
+                                </label>
+                                <select id="editSpecies" name="species" required>
+                                    <option value="">Выберите вид</option>
+                                    <option value="Собака">Собака</option>
+                                    <option value="Кошка">Кошка</option>
+                                    <option value="Грызун">Грызун</option>
+                                    <option value="Птица">Птица</option>
+                                    <option value="Рептилия">Рептилия</option>
+                                    <option value="Другое">Другое</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editBreed">
+                                    <i class="fas fa-dog"></i>
+                                    Порода
+                                </label>
+                                <input type="text" id="editBreed" name="breed" 
+                                       placeholder="Например: Лабрадор, Сиамская">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="editBirthDate">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    Дата рождения
+                                </label>
+                                <input type="date" id="editBirthDate" name="birthDate">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editColor">
+                                    <i class="fas fa-palette"></i>
+                                    Окрас
+                                </label>
+                                <input type="text" id="editColor" name="color" 
+                                       placeholder="Опишите окрас животного">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="editGender">
+                                    <i class="fas fa-venus-mars"></i>
+                                    Пол
+                                </label>
+                                <select id="editGender" name="gender">
+                                    <option value="">Не указан</option>
+                                    <option value="Самец">Самец</option>
+                                    <option value="Самка">Самка</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Медицинская информация -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-medical"></i> Медицинская информация</h3>
+                        
+                        <div class="form-group">
+                            <label for="editVaccinations">
+                                <i class="fas fa-syringe"></i>
+                                Прививки
+                            </label>
+                            <textarea id="editVaccinations" name="vaccinations" rows="4" 
+                                      placeholder="Перечислите прививки с датами"></textarea>
+                            <div class="form-hint">Указывайте каждую прививку с датой на новой строке</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDiseases">
+                                <i class="fas fa-stethoscope"></i>
+                                Заболевания и аллергии
+                            </label>
+                            <textarea id="editDiseases" name="diseases" rows="4" 
+                                      placeholder="Известные заболевания, хронические болезни, аллергии..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editVetInfo">
+                                <i class="fas fa-user-md"></i>
+                                Информация о ветеринаре
+                            </label>
+                            <textarea id="editVetInfo" name="vetInfo" rows="3" 
+                                      placeholder="Клиника, врач, контактные данные..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Дополнительная информация -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-notes-medical"></i> Дополнительная информация</h3>
+                        
+                        <div class="form-group">
+                            <label for="editDiet">
+                                <i class="fas fa-utensils"></i>
+                                Диета и питание
+                            </label>
+                            <textarea id="editDiet" name="diet" rows="3" 
+                                      placeholder="Особенности питания, тип корма, режим..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editBehavior">
+                                <i class="fas fa-brain"></i>
+                                Особенности поведения
+                            </label>
+                            <textarea id="editBehavior" name="behavior" rows="3" 
+                                      placeholder="Повадки, характер, особенности..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editAdditionalInfo">
+                                <i class="fas fa-info-circle"></i>
+                                Прочая информация
+                            </label>
+                            <textarea id="editAdditionalInfo" name="additionalInfo" rows="3" 
+                                      placeholder="Любая дополнительная информация о питомце"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-danger" id="deletePetBtn">
+                            <i class="fas fa-trash"></i> Удалить питомца
+                        </button>
+                        <div>
+                            <a href="dashboard.html" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Отмена
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Сохранить изменения
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-paw"></i> ЧипТрекер</h3>
+                    <p>Безопасный учет животных по микрочипам</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-phone"></i> +77777777777</p>
+                    <p><i class="fas fa-envelope"></i> support@animalchiptracker.ru</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Не очень защищено</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно подтверждения удаления -->
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Подтверждение удаления</h3>
+            <p id="deleteConfirmMessage">Вы уверены, что хотите удалить этого питомца? Это действие нельзя отменить.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelDelete">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
+                <button class="btn btn-danger" id="confirmDelete">
+                    <i class="fas fa-trash"></i> Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно успеха -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 id="successTitle">Успешно!</h3>
+            <p id="successMessage">Операция выполнена успешно</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="successOkBtn">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="edit-pet.js"></script>
+    <script src="navigation.js"></script>
+</body>
+</html>
